@@ -30,7 +30,7 @@ return {
             {
               desc = ' dotfiles',
               group = 'Number',
-              action = 'Telescope dotfiles',
+              action = 'LoadConfigSession',
               key = 'c',
             },
           },
