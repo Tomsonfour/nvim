@@ -1,0 +1,4 @@
+add test folder for testing plugins
+remove copilot from nvim-cmp sources
+remove autocompletition from init.lua
+

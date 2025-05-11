@@ -33,12 +33,6 @@ return { -- Autocompletion
     --  into multiple repos for maintenance purposes.
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
-    {
-      'zbirenbaum/copilot-cmp',
-      config = function()
-        require('copilot_cmp').setup()
-      end,
-    },
   },
   config = function()
     -- See `:help cmp`
@@ -106,7 +100,6 @@ return { -- Autocompletion
           -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
           group_index = 0,
         },
-        { name = 'copilot', group_index = 2 },
         { name = 'nvim_lsp', group_index = 2 },
         { name = 'luasnip', group_index = 2 },
         { name = 'buffer', group_index = 2 },
