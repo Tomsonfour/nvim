@@ -105,6 +105,7 @@ vim.opt.number = true
 -- vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
@@ -659,46 +660,73 @@ require("lazy").setup({
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
+	{ "nushell/tree-sitter-nu", build = ":TSUpdate nu" },
+
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = {
+					"bash",
+					"c",
+					"diff",
+					"html",
+					"lua",
+					"luadoc",
+					"markdown",
+					"markdown_inline",
+					"query",
+					"vim",
+					"vimdoc",
+					"python",
+					"cpp",
+					"rust",
+					"zig",
+					"nu",
+				},
+				auto_install = true,
+				highlight = {
+					enable = true,
+					-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+					--  If you are experiencing weird indenting issues, add the language to
+					--  the list of additional_vim_regex_highlighting and disabled languages for indent.
+					additional_vim_regex_highlighting = { "ruby" },
+				},
+				indent = { enable = true, disable = { "ruby" } },
+			})
+		end,
 		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"lua",
-				"luadoc",
-				"markdown",
-				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
-				"python",
-				"cpp",
-				"rust",
-				"zig",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
+		-- OPTIONAL!! These enable ts-specific textobjects.
+		-- So you can hit `yaf` to copy the closest function,
+		-- `dif` to clear the content of the closest function,
+		-- or whatever keys you map to what query.
+		textobjects = {
+			select = {
 				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
+				keymaps = {
+					-- You can use the capture groups defined in textobjects.scm
+					-- For example:
+					-- Nushell only
+					["aP"] = "@pipeline.outer",
+					["iP"] = "@pipeline.inner",
+
+					-- supported in other languages as well
+					["af"] = "@function.outer",
+					["if"] = "@function.inner",
+					["al"] = "@loop.outer",
+					["il"] = "@loop.inner",
+					["aC"] = "@conditional.outer",
+					["iC"] = "@conditional.inner",
+					["iS"] = "@statement.inner",
+					["aS"] = "@statement.outer",
+				}, -- keymaps
+			}, -- select
+		}, -- textobjects
+		dependencies = {
+			-- Install official queries and filetype detection
+			-- alternatively, see section "Install official queries only"
+			{ "nushell/tree-sitter-nu" },
 		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
 
 	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
