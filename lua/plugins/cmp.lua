@@ -46,7 +46,6 @@ return { -- Autocompletion
           luasnip.lsp_expand(args.body)
         end,
       },
-      completion = { completeopt = 'menu,menuone,noinsert' },
 
       -- For an understanding of why these mappings were
       -- chosen, you will need to read `:help ins-completion`
@@ -70,7 +69,7 @@ return { -- Autocompletion
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display
         --  completions whenever it has completion options available.
-        ['<C-Space>'] = cmp.mapping.complete {},
+        ['<C-o>'] = cmp.mapping.complete {},
 
         -- Think of <c-l> as moving to the right of your snippet expansion.
         --  So if you have a snippet that's like:
